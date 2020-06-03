@@ -1,153 +1,143 @@
 [
     {
-        "id": "e33e63b3.82fa3",
+        "id": "22dbb228.d3317e",
         "type": "tab",
-        "label": "Flow 1",
-        "disabled": true,
+        "label": "Flow 2",
+        "disabled": false,
         "info": ""
     },
     {
-        "id": "a7c724c6.4fc758",
+        "id": "2e0d2fb3.79303",
         "type": "ui_form",
-        "z": "e33e63b3.82fa3",
+        "z": "22dbb228.d3317e",
         "name": "",
         "label": "",
         "group": "df453e5d.bc922",
-        "order": 1,
+        "order": 3,
         "width": 0,
         "height": 0,
         "options": [
             {
-                "label": "What is your query",
-                "value": "Input",
+                "label": "Enter your input",
+                "value": "text",
                 "type": "text",
                 "required": true,
                 "rows": null
             }
         ],
         "formValue": {
-            "Input": ""
+            "text": ""
         },
         "payload": "",
         "submit": "submit",
         "cancel": "cancel",
         "topic": "",
-        "x": 90,
-        "y": 40,
-        "wires": [
-            [
-                "1df2dd4a.4618c3"
-            ]
-        ]
-    },
-    {
-        "id": "df558f0f.4dd5c",
-        "type": "watson-discovery-v1",
-        "z": "e33e63b3.82fa3",
-        "name": "newsapp",
-        "environmentname": "",
-        "environmentId": "system",
-        "collectionId": "news-en",
-        "configurationname": "",
-        "configurationId": "",
-        "language_code": "en",
-        "collection_name": "",
-        "count": "1",
-        "passages": true,
-        "nlp_query": true,
-        "query": "",
-        "filter": "",
-        "aggregation": "",
-        "return": "",
-        "description": "",
-        "size": "LT",
-        "discovery-method": "query",
-        "service-endpoint": "https://api.eu-gb.discovery.watson.cloud.ibm.com/instances/dd5e91ce-b19a-4242-b5bc-bdc838e5bffb",
-        "x": 300,
-        "y": 240,
-        "wires": [
-            [
-                "a420c501.c34848",
-                "df472a87.a72b98"
-            ]
-        ]
-    },
-    {
-        "id": "1df2dd4a.4618c3",
-        "type": "function",
-        "z": "e33e63b3.82fa3",
-        "name": "",
-        "func": "msg = {\n    discoveryparams: {\n        \"environment_id\": \"system\",\n        \"query\": msg.payload.input\n    }\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 130,
+        "x": 50,
         "y": 160,
         "wires": [
             [
-                "df558f0f.4dd5c"
+                "65dbb9b8.6c11b8"
             ]
         ]
     },
     {
-        "id": "df472a87.a72b98",
+        "id": "65dbb9b8.6c11b8",
         "type": "function",
-        "z": "e33e63b3.82fa3",
+        "z": "22dbb228.d3317e",
         "name": "",
-        "func": "msg.payload = msg.search_results.results[0].text\nreturn msg;",
+        "func": "msg.payload = msg.payload.text;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 490,
-        "y": 160,
+        "x": 210,
+        "y": 180,
         "wires": [
             [
-                "d8942c04.62131",
-                "aa814696.0d2da8"
+                "ef29e3ec.1f91e",
+                "d6194724.447b98"
             ]
         ]
     },
     {
-        "id": "a420c501.c34848",
-        "type": "debug",
-        "z": "e33e63b3.82fa3",
+        "id": "7cf50b36.891b94",
+        "type": "function",
+        "z": "22dbb228.d3317e",
         "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 470,
-        "y": 40,
+        "func": "msg.payload = msg.payload.output.text[0];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 530,
+        "y": 180,
+        "wires": [
+            [
+                "2719dc5a.a4a374"
+            ]
+        ]
+    },
+    {
+        "id": "ef29e3ec.1f91e",
+        "type": "watson-conversation-v1",
+        "z": "22dbb228.d3317e",
+        "name": "Customer Care",
+        "workspaceid": "368bcb71-0a1c-42a1-8bdf-a802a406cabf",
+        "multiuser": false,
+        "context": true,
+        "empty-payload": false,
+        "service-endpoint": "https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/6683467c-5566-4360-a9d3-2bb31766d006",
+        "timeout": "",
+        "optout-learning": false,
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "260ff1aa.eec9ee",
+                "7cf50b36.891b94"
+            ]
+        ]
+    },
+    {
+        "id": "d6194724.447b98",
+        "type": "ui_text",
+        "z": "22dbb228.d3317e",
+        "group": "df453e5d.bc922",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "You :",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 350,
+        "y": 300,
         "wires": []
     },
     {
-        "id": "d8942c04.62131",
+        "id": "260ff1aa.eec9ee",
         "type": "debug",
-        "z": "e33e63b3.82fa3",
+        "z": "22dbb228.d3317e",
         "name": "",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 510,
-        "y": 400,
+        "x": 610,
+        "y": 60,
         "wires": []
     },
     {
-        "id": "aa814696.0d2da8",
+        "id": "2719dc5a.a4a374",
         "type": "ui_text",
-        "z": "e33e63b3.82fa3",
+        "z": "22dbb228.d3317e",
         "group": "df453e5d.bc922",
-        "order": 2,
-        "width": 0,
-        "height": 0,
+        "order": 5,
+        "width": 12,
+        "height": 1,
         "name": "",
-        "label": "results",
+        "label": "Bot",
         "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "x": 670,
-        "y": 220,
+        "layout": "col-center",
+        "x": 680,
+        "y": 280,
         "wires": []
     },
     {
